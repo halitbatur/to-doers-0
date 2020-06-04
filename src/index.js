@@ -2,8 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import db from "./FireBaseConfig";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const store = createStore(
+  db,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+const rootEl = document.getElementById("root");
 
-serviceWorker.unregister();
+const render = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    rootEl
+  );
+};
+render();
+store.subscribe(render);

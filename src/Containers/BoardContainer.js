@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Boards from "./Boards";
-
+import AddBtn from "../Components/AddBtn";
 export default function BoardContainer(props) {
-  const db = props.db;
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("");
-  const [boards, setBoards] = useState([]);
+  const db = useSelector((state) => state.value);
 
-  // Adding a new board
-  const addBoardInfo = async (e) => {
-    e.preventDefault();
-    e.persist();
-    await db.collection("boardstest").add({
-      name,
-      color,
-      dataItems: {},
-    });
-    e.target.reset();
-  };
+  const [boards, setBoards] = useState([]);
 
   const liveUpdate = async () => {
     await db.collection("boardstest").onSnapshot((ss) => {
@@ -33,7 +21,6 @@ export default function BoardContainer(props) {
             );
             return [...newBoards, change.doc];
           });
-          // setBoards((boards) => boards.filter(board => board.newIndex !== change.))
         }
       });
     });
@@ -44,25 +31,9 @@ export default function BoardContainer(props) {
   }, []);
 
   return (
-    <div>
-      <form onSubmit={(e) => addBoardInfo(e)}>
-        board name
-        <input
-          type="text"
-          name="board-name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        board color
-        <input
-          type="text"
-          name="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
-        <button>Submit</button>
-      </form>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
       <Boards boards={boards} db={db} />
+      <AddBtn />
     </div>
   );
 }

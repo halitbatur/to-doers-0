@@ -1,32 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import BoardItems from "../Containers/BoardItems";
+import AddIcon from "@material-ui/icons/Add";
 
 export default function SingleBoard(props) {
+  const db = useSelector((state) => state.value);
+
   const data = props.data;
-  const batch = props.db.batch();
-  const itemsRef = props.db
+  const itemsRef = db
     .collection("boardstest")
     .doc(`${data.id}`)
     .collection("boardItems");
 
-  // adds new item to our board
+  // Adds new item to our board
   const addItem = () => {
     itemsRef.add({
-      name: "item1",
-      dueDate: "tommorow",
-      assginedTo: ["halit", "gunsu"],
+      name: "item2",
+      dueDate: "03/06/2020",
+      assginedTo: ["gunsu"],
       completed: false,
     });
   };
 
-  //   batch.set(itemsRef, { name: "not that easy ?" });
-
-  // batch.commit();
-
   return (
     <div className="single-board" data-id={data.id}>
       <p>name: {data.data().name}</p>
-      <p>color: {data.data().color}</p>
-      <button onClick={addItem}>Add a new item</button>
+      <BoardItems id={data.id} />
+      <button onClick={addItem}>
+        <AddIcon />
+        Add item
+      </button>
     </div>
   );
 }

@@ -4,9 +4,13 @@ import SingleBoard from "../Components/SingleBoard";
 export default function Boards(props) {
   const renderDemBoards = () => {
     return props.boards.map((board) => {
-      return <SingleBoard data={board} db={props.db} />;
+      return <SingleBoard data={board} />;
     });
   };
 
-  return <div>{renderDemBoards()}</div>;
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)" }}>
+      {renderDemBoards()}
+    </div>
+  );
 }
