@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import Boards from "./Boards";
-import AddBtn from "../Components/AddBtn";
+import Boards from "../../Containers/boards/Boards";
+import AddBtn from "../../Components/addBtn/AddBtn";
 export default function BoardContainer(props) {
   const db = useSelector((state) => state.value);
 

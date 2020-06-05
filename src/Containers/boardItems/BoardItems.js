@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import BoardItem from "../Components/BoardItem";
+import BoardItem from "../../Components/boardItem/BoardItem";
 
 export default function BoardItems(props) {
   const [boardItems, setBoardItems] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import BoardItems from "../Containers/BoardItems";
+import BoardItems from "../../Containers/boardItems/BoardItems";
 import AddIcon from "@material-ui/icons/Add";
 
 export default function SingleBoard(props) {

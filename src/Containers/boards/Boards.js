@@ -1,5 +1,5 @@
 import React from "react";
-import SingleBoard from "../Components/SingleBoard";
+import SingleBoard from "../../Components/singleBoard/SingleBoard";
 
 export default function Boards(props) {
   const renderDemBoards = () => {

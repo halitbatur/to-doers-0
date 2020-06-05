@@ -1,6 +1,6 @@
 import React from "react";
-import BoardContainer from "./Containers/BoardContainer";
-import NavBar from "./Components/Navbar";
+import BoardContainer from "./Containers/boardContainer/BoardContainer";
+import NavBar from "./Components/navBar/Navbar";
 import db from "./FireBaseConfig";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
