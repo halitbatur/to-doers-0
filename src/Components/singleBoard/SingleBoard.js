@@ -1,35 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import BoardItems from "../../Containers/boardItems/BoardItems";
 import AddIcon from "@material-ui/icons/Add";
+import { Button } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 
 export default function SingleBoard(props) {
-  const db = useSelector((state) => state.value);
-
   const data = props.data;
-  const itemsRef = db
-    .collection("boardstest")
-    .doc(`${data.id}`)
-    .collection("boardItems");
+  console.log(data);
+  const db = useSelector((state) => state.value);
+  const [id] = useState(props.boardId);
+  const [boardItems, setBoardItems] = useState([]);
+
+  const itemsRef = db.collection("boardstest").doc(id).collection("boardItems");
 
   // Adds new item to our board
-  const addItem = () => {
-    itemsRef.add({
-      name: "item2",
+  const addItem = async () => {
+    await itemsRef.add({
+      name: "item",
       dueDate: "03/06/2020",
       assginedTo: ["gunsu"],
       completed: false,
     });
   };
 
+  const liveUpdate = async () => {
+    await db
+      .collection("boardstest")
+      .doc(id)
+      .collection("boardItems")
+      .onSnapshot((ss) => {
+        const changes = ss.docChanges();
+        changes.forEach((change) => {
+          if (change.type === "added") {
+            setBoardItems((boardItems) => [...boardItems, change.doc]);
+          } else if (change.type === "removed") {
+            setBoardItems((boardItems) => {
+              const newItems = boardItems.filter(
+                (boardItem) => boardItem.id !== change.doc.id
+              );
+              return [...newItems];
+            });
+          }
+        });
+      });
+  };
+
+  useEffect(() => {
+    liveUpdate();
+  }, []);
+
   return (
-    <div className="single-board" data-id={data.id}>
-      <p>name: {data.data().name}</p>
-      <BoardItems id={data.id} />
-      <button onClick={addItem}>
+    <Card className="single-board" data-id={id}>
+      {props.children}
+      <BoardItems boardItems={boardItems} id={id} />
+      <Button onClick={addItem}>
         <AddIcon />
         Add item
-      </button>
-    </div>
+      </Button>
+    </Card>
   );
 }

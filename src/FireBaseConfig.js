@@ -15,9 +15,10 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.firestore();
+const dbFunctions = firebase.functions();
 
 // add db to the store
-const db = (state = { value: database }, action) => {
+const db = (state = { value: database, functions: dbFunctions }, action) => {
   return state;
 };
 

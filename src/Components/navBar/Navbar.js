@@ -44,7 +44,7 @@ export default function PermanentDrawerLeft() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ gridColumn: "1/2" }}>
       <CssBaseline />
       <Drawer
         className={classes.drawer}
