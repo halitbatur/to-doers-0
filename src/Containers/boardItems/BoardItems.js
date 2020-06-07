@@ -7,7 +7,7 @@ export default function BoardItems(props) {
     return props.boardItems.map((boardItem, index) => {
       return (
         <BoardItem
-          data={boardItem.data()}
+          data={boardItem.name}
           boardId={props.id}
           itemId={boardItem.id}
           key={index}

@@ -11,6 +11,7 @@ export default function AddBtn() {
   const addBoard = async () => {
     await db.collection("boardstest").add({
       name: boardName,
+      items: [],
     });
   };
 

@@ -17,7 +17,7 @@ export default function BoardItem(props) {
 
   return (
     <div>
-      <h2>{data.name}</h2>
+      <h2>{data}</h2>
 
       {data.completed ? "Completed!" : "Still not completed :( work hard!"}
       <Button onClick={deleteItem}>Delete Item</Button>

@@ -9,18 +9,21 @@ export default function SingleBoard(props) {
   const data = props.data;
   console.log(data);
   const db = useSelector((state) => state.value);
+  const firebase = useSelector((state) => state.fire);
   const [id] = useState(props.boardId);
   const [boardItems, setBoardItems] = useState([]);
 
-  const itemsRef = db.collection("boardstest").doc(id).collection("boardItems");
+  const itemsRef = db.collection("boardstest").doc(id);
 
   // Adds new item to our board
   const addItem = async () => {
-    await itemsRef.add({
-      name: "item",
-      dueDate: "03/06/2020",
-      assginedTo: ["gunsu"],
-      completed: false,
+    await itemsRef.update({
+      items: firebase.firestore.FieldValue.arrayUnion({
+        name: "item",
+        dueDate: "03/06/2020",
+        assginedTo: ["gunsu"],
+        completed: false,
+      }),
     });
   };
 
@@ -53,7 +56,7 @@ export default function SingleBoard(props) {
   return (
     <Card className="single-board" data-id={id}>
       {props.children}
-      <BoardItems boardItems={boardItems} id={id} />
+      <BoardItems boardItems={data.items} id={id} />
       <Button onClick={addItem}>
         <AddIcon />
         Add item

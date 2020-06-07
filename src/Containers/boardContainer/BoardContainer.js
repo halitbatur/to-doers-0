@@ -8,7 +8,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function BoardContainer(props) {
   const db = useSelector((state) => state.value);
-  const dbFunctions = useSelector((state) => state.functions);
 
   const [boards, setBoards] = useState([]);
 
@@ -36,25 +35,11 @@ export default function BoardContainer(props) {
   };
 
   const deleteBoard = async (id) => {
-    const path = db.collection("boardstest").doc(id);
-    deleteAtPath(path);
     await db
       .collection("boardstest")
       .doc(id)
       .delete()
       .then(() => console.log("delete board with the id:" + id));
-  };
-
-  const deleteAtPath = (path) => {
-    const deleteFn = dbFunctions.httpsCallable("recursiveDelete");
-    deleteFn({ path: path })
-      .then(function (result) {
-        console.log("Delete success: " + JSON.stringify(result));
-      })
-      .catch(function (err) {
-        console.log("Delete failed, see console,");
-        console.warn(err);
-      });
   };
 
   const renderDemBoards = () => {
