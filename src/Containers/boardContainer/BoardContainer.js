@@ -4,7 +4,6 @@ import AddBtn from "../../Components/addBtn/AddBtn";
 import SingleBoard from "../../Components/singleBoard/SingleBoard";
 
 import { Button } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function BoardContainer(props) {
   const db = useSelector((state) => state.value);
@@ -19,16 +18,6 @@ export default function BoardContainer(props) {
         console.log(change.doc.id);
         if (change.type === "added") {
           setBoards((boards) => [...boards, change.doc]);
-        } else if (change.type === "removed") {
-          setBoards((boards) => {
-            const newBoards = boards.filter(
-              (board) => board.id !== change.doc.id
-            );
-            newBoards.forEach((board) => {
-              console.log(board.id);
-            });
-            return [...newBoards];
-          });
         }
       });
     });
@@ -40,18 +29,19 @@ export default function BoardContainer(props) {
       .doc(id)
       .delete()
       .then(() => console.log("delete board with the id:" + id));
+
+    setBoards(() => boards.filter((board) => board.id !== id));
   };
 
   const renderDemBoards = () => {
     return boards.map((board, index) => {
       return (
-        <SingleBoard data={board.data()} boardId={board.id} key={index}>
-          {" "}
-          <Button onClick={() => deleteBoard(board.id)}>
-            <DeleteIcon />
-          </Button>
-          <p>name: {board.data().name}</p>
-        </SingleBoard>
+        <SingleBoard
+          data={board.data()}
+          boardId={board.id}
+          key={board.id}
+          deleteBoard={() => deleteBoard(board.id)}
+        ></SingleBoard>
       );
     });
   };
