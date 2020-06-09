@@ -37,12 +37,17 @@ export default function SingleBoard(props) {
     await itemsRef.update({
       items: firebase.firestore.FieldValue.arrayRemove(item),
     });
-
     setBoardItems(() =>
       boardItems.filter((boarditem) => boarditem.id !== item.id)
     );
   };
 
+  const editItem = async () => {
+    /*await itemsRef.update(()=>{
+
+    })*/
+
+  };
   const deleteBoard = () => {
     setBoardItems([]);
     props.deleteBoard();
@@ -58,7 +63,9 @@ export default function SingleBoard(props) {
         boardItems={boardItems}
         id={props.id}
         deleteItem={deleteItem}
+        editItem={editItem}
       />
+
       <input value={itemName} onChange={(e) => setItemName(e.target.value)} />
       <Button onClick={addItem}>
         <AddIcon />

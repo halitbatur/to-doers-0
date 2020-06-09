@@ -6,7 +6,7 @@ export default function BoardItems(props) {
   const render = () => {
     return props.boardItems.map((boardItem, index) => {
       return (
-        <BoardItem deleteItem={props.deleteItem} data={boardItem} key={index} />
+        <BoardItem deleteItem={props.deleteItem} editItem={props.editItem} data={boardItem} key={index} />
       );
     });
   };
