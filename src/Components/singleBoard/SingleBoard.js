@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import BoardItems from "../../Containers/boardItems/BoardItems";
 import AddIcon from "@material-ui/icons/Add";
 import { Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import InputLabel from "@material-ui/core/InputLabel";
 import { Card } from "@material-ui/core";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 100,
+    minHeight: 30,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 export default function SingleBoard(props) {
+  const classes = useStyles();
   const [boardName, setBoardName] = useState(props.data.name);
   const db = useSelector((state) => state.value);
   const [id] = useState(props.boardId);
   const [boardItems, setBoardItems] = useState([]);
   const [itemName, setItemName] = useState("");
   const [isOnEditMode, setEditMode] = useState(false);
+  const [sortBy, setSortBy] = useState("");
 
   const itemsRef = db.collection("boardstest").doc(id).collection("boardItems");
 
@@ -62,6 +79,55 @@ export default function SingleBoard(props) {
       });
   };
 
+  const handleChange = (e) => {
+    setSortBy(e.target.value);
+    sortDemItems(e.target.value);
+  };
+
+  // This function will sort the items withing the board
+  const sortDemItems = (sortBy) => {
+    console.log("Hello");
+    console.log(sortBy);
+    console.log(boardItems[0].data());
+    switch (sortBy) {
+      case "DDA":
+        setBoardItems(() =>
+          boardItems.sort(
+            (a, b) =>
+              parseInt(a.data().dueDate.split("-").join("")) -
+              parseInt(b.data().dueDate.split("-").join(""))
+          )
+        );
+        break;
+      case "DDD":
+        setBoardItems(() =>
+          boardItems.sort(
+            (a, b) =>
+              parseInt(b.data().dueDate.split("-").join("")) -
+              parseInt(a.data().dueDate.split("-").join(""))
+          )
+        );
+        break;
+      case "TA":
+        setBoardItems((boardItems) => {
+          const sortedArr = boardItems.sort((a, b) => {
+            return a.data().name - b.data().name;
+          });
+          return [...sortedArr];
+        });
+        boardItems.forEach((board) => console.log(board.data()));
+        break;
+
+      case "TD":
+        setBoardItems(() =>
+          boardItems.sort((a, b) => b.data().name - a.data().name)
+        );
+        break;
+
+      default:
+    }
+  };
+
   useEffect(() => {
     liveUpdate();
   }, []);
@@ -69,7 +135,6 @@ export default function SingleBoard(props) {
   const changeBoardName = async (e) => {
     e.preventDefault();
     e.persist();
-    console.log(e.target[0].value);
     await db.collection("boardstest").doc(id).update({
       name: e.target[0].value,
     });
@@ -90,6 +155,25 @@ export default function SingleBoard(props) {
       ) : (
         <h2 style={{ display: "inline" }}>{boardName}</h2>
       )}
+      <FormControl className={classes.formControl}>
+        <InputLabel shrink id="sortby-label">
+          Sort By
+        </InputLabel>
+        <Select
+          labelId="sortby-label"
+          id="demo-simple-select-outlined"
+          value={sortBy}
+          onChange={(e) => handleChange(e)}
+          displayEmpty
+          className={classes.selectEmpty}
+        >
+          <MenuItem value="">None</MenuItem>
+          <MenuItem value="DDA">DueDate Ascending</MenuItem>
+          <MenuItem value="DDD">DueDate Descending</MenuItem>
+          <MenuItem value="TA">Title Ascending</MenuItem>
+          <MenuItem value="TD">Title Descending</MenuItem>
+        </Select>
+      </FormControl>
       {!isOnEditMode && (
         <Button onClick={() => setEditMode(true)}>
           <EditIcon />

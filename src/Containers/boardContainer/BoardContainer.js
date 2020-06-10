@@ -20,9 +20,7 @@ export default function BoardContainer(props) {
             const newBoards = boards.filter(
               (board) => board.id !== change.doc.id
             );
-            newBoards.forEach((board) => {
-              console.log(board.id);
-            });
+
             return [...newBoards];
           });
         }

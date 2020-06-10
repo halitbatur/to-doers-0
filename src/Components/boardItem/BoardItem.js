@@ -10,7 +10,6 @@ export default function BoardItem(props) {
   const db = useSelector((state) => state.value);
   const [isOnEditMode, setEditMode] = useState(false);
   const [data, setData] = useState(props.data);
-  console.log(data);
 
   const deleteItem = () => {
     db.collection("boardstest")
