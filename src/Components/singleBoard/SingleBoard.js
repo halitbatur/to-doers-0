@@ -120,7 +120,7 @@ export default function SingleBoard(props) {
 
           });
         break;
-      case "TA":
+      case "TD":
         setBoardItems((boardItems) => {
           const sortedArr = boardItems.sort((a, b) => {
             if (a.data().name > b.data().name) {
@@ -136,7 +136,7 @@ export default function SingleBoard(props) {
         boardItems.forEach((board) => console.log(board.data()));
         break;
 
-      case "TD":
+      case "TA":
         setBoardItems((boardItems) => {
           const sortedArr = boardItems.sort((a, b) => {
             if (a.data().name > b.data().name) {
