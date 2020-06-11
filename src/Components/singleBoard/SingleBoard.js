@@ -90,28 +90,46 @@ export default function SingleBoard(props) {
     console.log(sortBy);
     console.log(boardItems[0].data());
     switch (sortBy) {
-      case "DDA":
-        setBoardItems(() =>
-          boardItems.sort(
-            (a, b) =>
-              parseInt(a.data().dueDate.split("-").join("")) -
-              parseInt(b.data().dueDate.split("-").join(""))
-          )
-        );
-        break;
       case "DDD":
-        setBoardItems(() =>
-          boardItems.sort(
-            (a, b) =>
-              parseInt(b.data().dueDate.split("-").join("")) -
-              parseInt(a.data().dueDate.split("-").join(""))
-          )
-        );
+        setBoardItems(() => {
+          const sortedArr = boardItems.sort((a, b) => {
+            if (b.data().dueDate.split("-").join("") > a.data().dueDate.split("-").join("")) {
+              return 1;
+            }
+            if (a.data().dueDate.split("-").join("") > b.data().dueDate.split("-").join("")) {
+              return -1;
+            }
+            return 0;
+          });
+          return [...sortedArr];
+
+        });
+        break;
+      case "DDA":
+        setBoardItems(() =>{
+            const sortedArr = boardItems.sort((a, b) => {
+              if (b.data().dueDate.split("-").join("") > a.data().dueDate.split("-").join("")) {
+                return -1;
+              }
+              if (a.data().dueDate.split("-").join("") > b.data().dueDate.split("-").join("")) {
+                return 1;
+              }
+              return 0;
+            });
+          return [...sortedArr];
+
+          });
         break;
       case "TA":
         setBoardItems((boardItems) => {
           const sortedArr = boardItems.sort((a, b) => {
-            return a.data().name - b.data().name;
+            if (a.data().name > b.data().name) {
+              return -1;
+            }
+            if (b.data().name > a.data().name) {
+              return 1;
+            }
+            return 0;
           });
           return [...sortedArr];
         });
@@ -119,9 +137,18 @@ export default function SingleBoard(props) {
         break;
 
       case "TD":
-        setBoardItems(() =>
-          boardItems.sort((a, b) => b.data().name - a.data().name)
-        );
+        setBoardItems((boardItems) => {
+          const sortedArr = boardItems.sort((a, b) => {
+            if (a.data().name > b.data().name) {
+              return 1;
+            }
+            if (b.data().name > a.data().name) {
+              return -1;
+            }
+            return 0;
+          });
+          return [...sortedArr];
+        });
         break;
 
       default:
