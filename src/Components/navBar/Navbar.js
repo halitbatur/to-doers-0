@@ -57,7 +57,7 @@ export default function PermanentDrawerLeft() {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {["Home", "Pomodora", "Completed"].map((text, index) => (
+          {["Home", "Pomodoro", "Completed"].map((text, index) => (
             <Link
               to={() => {
                 switch (index) {
