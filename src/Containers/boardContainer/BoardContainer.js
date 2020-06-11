@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import AddBtn from "../../Components/addBtn/AddBtn";
 import SingleBoard from "../../Components/singleBoard/SingleBoard";
+import SingleList from "../../Components/singleList/SingleList";
 
 export default function BoardContainer(props) {
   const db = useSelector((state) => state.value);
@@ -41,12 +42,12 @@ export default function BoardContainer(props) {
   const renderDemBoards = () => {
     return boards.map((board) => {
       return (
-        <SingleBoard
+        <SingleList
           data={board.data()}
           boardId={board.id}
           key={board.id}
           deleteBoard={deleteBoard}
-        ></SingleBoard>
+        ></SingleList>
       );
     });
   };
@@ -59,19 +60,18 @@ export default function BoardContainer(props) {
     <div
       style={{
         gridColumn: "2/7",
-        display: "grid",
-        gridTemplateColumns: "repeat(3,1fr)",
+        display: "grid",  
+        width: "100%"
       }}
     >
       <div
         style={{
-          gridColumn: "1/3",
           display: "grid",
-          gridTemplateColumns: "repeat(3,1fr)",
         }}
       >
         {renderDemBoards()}
       </div>
+
       <AddBtn />
     </div>
   );

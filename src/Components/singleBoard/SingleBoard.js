@@ -86,8 +86,6 @@ export default function SingleBoard(props) {
 
   // This function will sort the items withing the board
   const sortDemItems = (sortBy) => {
-    console.log("Hello");
-    console.log(sortBy);
     console.log(boardItems[0].data());
     switch (sortBy) {
       case "DDD":
@@ -133,7 +131,6 @@ export default function SingleBoard(props) {
           });
           return [...sortedArr];
         });
-        boardItems.forEach((board) => console.log(board.data()));
         break;
 
       case "TA":
