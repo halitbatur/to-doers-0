@@ -5,7 +5,15 @@ import { useSelector } from "react-redux";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneRoundedIcon from "@material-ui/icons/DoneRounded";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+import styled from "styled-components";
 
+const Container = styled.div`
+  border: 1px solid grey;
+  padding: 8px;
+  margin-bottom: 4px;
+  border-radius: 5px;
+  background-color: #00aecc;
+`;
 export default function BoardItem(props) {
   const db = useSelector((state) => state.value);
   const [isOnEditMode, setEditMode] = useState(false);
@@ -55,7 +63,7 @@ export default function BoardItem(props) {
   return (
     <>
       {!data.completed && (
-        <div>
+        <Container>
           <Button onClick={() => completed()}>
             <CheckCircleOutlineOutlinedIcon />
           </Button>
@@ -86,7 +94,8 @@ export default function BoardItem(props) {
           <Button onClick={deleteItem}>
             <DeleteIcon />
           </Button>
-        </div>
+          {data.dueDate !== "" && <span> Due date: {data.dueDate}</span>}
+        </Container>
       )}
     </>
   );

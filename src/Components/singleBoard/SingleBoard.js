@@ -56,17 +56,7 @@ export default function SingleBoard(props) {
         const changes = ss.docChanges();
         changes.forEach((change) => {
           if (change.type === "added") {
-            // if (!change.doc.data().completed) {
             setBoardItems((boardItems) => [...boardItems, change.doc]);
-            // }
-            // else {
-            //   setBoardItems((boardItems) => {
-            //     const newItems = boardItems.filter(
-            //       (boardItem) => boardItem.id !== change.doc.id
-            //     );
-            //     return [...newItems];
-            //   });
-            // }
           } else if (change.type === "removed") {
             setBoardItems((boardItems) => {
               const newItems = boardItems.filter(
@@ -86,45 +76,36 @@ export default function SingleBoard(props) {
 
   // This function will sort the items withing the board
   const sortDemItems = (sortBy) => {
-    console.log(boardItems[0].data());
     switch (sortBy) {
       case "DDD":
         setBoardItems(() => {
           const sortedArr = boardItems.sort((a, b) => {
-            if (b.data().dueDate.split("-").join("") > a.data().dueDate.split("-").join("")) {
-              return 1;
-            }
-            if (a.data().dueDate.split("-").join("") > b.data().dueDate.split("-").join("")) {
-              return -1;
-            }
-            return 0;
+            return (
+              parseInt(b.data().dueDate.split("-").join(""), 10) -
+              parseInt(a.data().dueDate.split("-").join(""), 10)
+            );
           });
           return [...sortedArr];
-
         });
         break;
       case "DDA":
-        setBoardItems(() =>{
-            const sortedArr = boardItems.sort((a, b) => {
-              if (b.data().dueDate.split("-").join("") > a.data().dueDate.split("-").join("")) {
-                return -1;
-              }
-              if (a.data().dueDate.split("-").join("") > b.data().dueDate.split("-").join("")) {
-                return 1;
-              }
-              return 0;
-            });
-          return [...sortedArr];
-
+        setBoardItems(() => {
+          const sortedArr = boardItems.sort((a, b) => {
+            return (
+              parseInt(a.data().dueDate.split("-").join(""), 10) -
+              parseInt(b.data().dueDate.split("-").join(""), 10)
+            );
           });
+          return [...sortedArr];
+        });
         break;
       case "TD":
         setBoardItems((boardItems) => {
           const sortedArr = boardItems.sort((a, b) => {
-            if (a.data().name > b.data().name) {
+            if (a.data().name.toLowerCase() > b.data().name.toLowerCase()) {
               return -1;
             }
-            if (b.data().name > a.data().name) {
+            if (b.data().name.toLowerCase() > a.data().name.toLowerCase()) {
               return 1;
             }
             return 0;
@@ -136,10 +117,10 @@ export default function SingleBoard(props) {
       case "TA":
         setBoardItems((boardItems) => {
           const sortedArr = boardItems.sort((a, b) => {
-            if (a.data().name > b.data().name) {
+            if (a.data().name.toLowerCase() > b.data().name.toLowerCase()) {
               return 1;
             }
-            if (b.data().name > a.data().name) {
+            if (b.data().name.toLowerCase() > a.data().name.toLowerCase()) {
               return -1;
             }
             return 0;

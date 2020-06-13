@@ -42,12 +42,12 @@ export default function BoardContainer(props) {
   const renderDemBoards = () => {
     return boards.map((board) => {
       return (
-        <SingleList
+        <SingleBoard
           data={board.data()}
           boardId={board.id}
           key={board.id}
           deleteBoard={deleteBoard}
-        ></SingleList>
+        ></SingleBoard>
       );
     });
   };
@@ -60,8 +60,8 @@ export default function BoardContainer(props) {
     <div
       style={{
         gridColumn: "2/7",
-        display: "grid",  
-        width: "100%"
+        display: "grid",
+        width: "100%",
       }}
     >
       <div
