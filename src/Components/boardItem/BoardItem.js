@@ -86,6 +86,7 @@ export default function BoardItem(props) {
           <Button onClick={deleteItem}>
             <DeleteIcon />
           </Button>
+          {data.dueDate !== "" && <span> Due date: {data.dueDate}</span>}
         </div>
       )}
     </>
