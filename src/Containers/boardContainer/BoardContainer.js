@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import AddBtn from "../../Components/addBtn/AddBtn";
 import SingleBoard from "../../Components/singleBoard/SingleBoard";
 import SingleList from "../../Components/singleList/SingleList";
+import { DragDropContext } from "react-beautiful-dnd";
 
 export default function BoardContainer(props) {
   const db = useSelector((state) => state.value);
@@ -56,6 +57,10 @@ export default function BoardContainer(props) {
     liveUpdate();
   }, []);
 
+  const onDragEnd = () => {
+    // update the order
+  };
+
   return (
     <div
       style={{
@@ -64,13 +69,15 @@ export default function BoardContainer(props) {
         width: "100%",
       }}
     >
-      <div
-        style={{
-          display: "grid",
-        }}
-      >
-        {renderDemBoards()}
-      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div
+          style={{
+            display: "grid",
+          }}
+        >
+          {renderDemBoards()}
+        </div>
+      </DragDropContext>
 
       <AddBtn />
     </div>

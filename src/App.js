@@ -5,6 +5,7 @@ import PomodoroContainer from "./Containers/pomodoroContainer/PomodoroContainer"
 import NavBar from "./Components/navBar/Navbar";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import "@atlaskit/css-reset";
 
 export default function App() {
   return (

@@ -11,6 +11,8 @@ import { Card } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import { Droppable } from "react-beautiful-dnd";
+import BoardItem from "../../Components/boardItem/BoardItem";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -76,10 +78,11 @@ export default function SingleBoard(props) {
 
   // This function will sort the items withing the board
   const sortDemItems = (sortBy) => {
+    let sortedArr = [];
     switch (sortBy) {
       case "DDD":
         setBoardItems(() => {
-          const sortedArr = boardItems.sort((a, b) => {
+          sortedArr = boardItems.sort((a, b) => {
             return (
               parseInt(b.data().dueDate.split("-").join(""), 10) -
               parseInt(a.data().dueDate.split("-").join(""), 10)
@@ -90,7 +93,7 @@ export default function SingleBoard(props) {
         break;
       case "DDA":
         setBoardItems(() => {
-          const sortedArr = boardItems.sort((a, b) => {
+          sortedArr = boardItems.sort((a, b) => {
             return (
               parseInt(a.data().dueDate.split("-").join(""), 10) -
               parseInt(b.data().dueDate.split("-").join(""), 10)
@@ -101,7 +104,7 @@ export default function SingleBoard(props) {
         break;
       case "TD":
         setBoardItems((boardItems) => {
-          const sortedArr = boardItems.sort((a, b) => {
+          sortedArr = boardItems.sort((a, b) => {
             if (a.data().name.toLowerCase() > b.data().name.toLowerCase()) {
               return -1;
             }
@@ -116,7 +119,7 @@ export default function SingleBoard(props) {
 
       case "TA":
         setBoardItems((boardItems) => {
-          const sortedArr = boardItems.sort((a, b) => {
+          sortedArr = boardItems.sort((a, b) => {
             if (a.data().name.toLowerCase() > b.data().name.toLowerCase()) {
               return 1;
             }
@@ -148,7 +151,7 @@ export default function SingleBoard(props) {
   };
 
   return (
-    <Card className="single-board" data-id={id}>
+    <Card className="single-board" data-id={id} style={{ width: "650px" }}>
       <Button onClick={() => props.deleteBoard(props.boardId)}>
         <DeleteIcon />
       </Button>
@@ -184,7 +187,24 @@ export default function SingleBoard(props) {
           <EditIcon />
         </Button>
       )}
-      <BoardItems boardItems={boardItems} id={id} />
+      <Droppable droppableId={id}>
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            {boardItems.map((boardItem, index) => {
+              return (
+                <BoardItem
+                  data={boardItem.data()}
+                  boardId={id}
+                  itemId={boardItem.id}
+                  key={boardItem.id}
+                  index={index}
+                />
+              );
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
       <form onSubmit={(e) => addItem(e)}>
         <input value={itemName} onChange={(e) => setItemName(e.target.value)} />
         <Button type="submit">
