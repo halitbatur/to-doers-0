@@ -62,7 +62,7 @@ export default function BoardItem(props) {
 
   return (
     <>
-      {!data.completed && (
+      {(props.showCompleted ? data.completed : !data.completed) && (
         <Container>
           <Button onClick={() => completed()}>
             <CheckCircleOutlineOutlinedIcon />

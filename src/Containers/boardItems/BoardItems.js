@@ -1,12 +1,18 @@
-import React from "react";
-
+import React, { useState } from "react";
 import BoardItem from "../../Components/boardItem/BoardItem";
+import { FormControlLabel, Switch } from "@material-ui/core";
 
 export default function BoardItems(props) {
+  const [showCompleted, setShowCompleted] = useState(false);
+
+  const handleChange = () => {
+    setShowCompleted(!showCompleted);
+  };
   const render = () => {
     return props.boardItems.map((boardItem) => {
       return (
         <BoardItem
+          showCompleted={showCompleted}
           data={boardItem.data()}
           boardId={props.id}
           itemId={boardItem.id}
@@ -16,5 +22,19 @@ export default function BoardItems(props) {
     });
   };
 
-  return <div>{render()}</div>;
+  return (
+    <div>
+      <FormControlLabel
+        control={
+          <Switch
+            checked={showCompleted}
+            onChange={handleChange}
+            name="antoine"
+          />
+        }
+        label="Show Completed!"
+      />
+      {render()}
+    </div>
+  );
 }
