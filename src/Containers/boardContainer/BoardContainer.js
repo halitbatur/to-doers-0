@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import AddBtn from "../../Components/addBtn/AddBtn";
 import SingleBoard from "../../Components/singleBoard/SingleBoard";
 import SingleList from "../../Components/singleList/SingleList";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { Grid } from "@material-ui/core";
@@ -70,7 +69,15 @@ export default function BoardContainer(props) {
   }, []);
 
   return (
-    <Grid item container lg={9} md={6} xs={3} spacing={1}>
+    <Grid
+      item
+      container
+      lg={9}
+      md={6}
+      xs={3}
+      spacing={1}
+      style={{ marginTop: "50px" }}
+    >
       <Grid
         item
         container

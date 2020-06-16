@@ -10,7 +10,7 @@ import styled from "styled-components";
 const Container = styled.div`
   border: 1px solid grey;
   padding: 8px;
-  margin-bottom: 4px;
+  margin: 8px;
   border-radius: 5px;
   background-color: #00aecc;
 `;

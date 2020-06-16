@@ -64,6 +64,19 @@ export default function SingleBoard(props) {
               );
               return [...newItems];
             });
+          } else if (change.type === "modified") {
+            setBoardItems((boardItems) => {
+              const changedId = change.doc.id;
+              const indexToReplace = boardItems.findIndex(
+                (boardItem) => boardItem.id === changedId
+              );
+
+              const updatedBoardItems = boardItems.slice();
+              updatedBoardItems[indexToReplace] = change.doc;
+
+              boardItems[indexToReplace] = change.doc;
+              return updatedBoardItems;
+            });
           }
         });
       });

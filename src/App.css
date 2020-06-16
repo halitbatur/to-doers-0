@@ -1,7 +1,6 @@
 .App {
   text-align: center;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
 }
 
 .App-logo {

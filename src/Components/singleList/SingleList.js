@@ -2,12 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import BoardItems from "../../Containers/boardItems/BoardItems";
-import AddIcon from "@material-ui/icons/Add";
-import { Button, Grid } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import InputLabel from "@material-ui/core/InputLabel";
-import { List } from "@material-ui/core";
+import { List, Grid } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItem from "@material-ui/core/ListItem";
@@ -25,28 +21,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function SingleBoard(props) {
   const classes = useStyles();
-  const [boardName, setBoardName] = useState(props.data.name);
+  const [boardName] = useState(props.data.name);
   const db = useSelector((state) => state.value);
   const [id] = useState(props.boardId);
   const [boardItems, setBoardItems] = useState([]);
-  const [itemName, setItemName] = useState("");
-  const [isOnEditMode, setEditMode] = useState(false);
   const [sortBy, setSortBy] = useState("");
 
-  const itemsRef = db.collection("boardstest").doc(id).collection("boardItems");
-
   // Adds new item to our board
-  const addItem = async (e) => {
-    e.preventDefault();
-    const newItem = {
-      name: itemName,
-      dueDate: "",
-      assignedTo: [],
-      completed: false,
-    };
-    setItemName("");
-    await itemsRef.add(newItem);
-  };
 
   const liveUpdate = async () => {
     await db
@@ -167,30 +148,11 @@ export default function SingleBoard(props) {
     liveUpdate();
   }, []);
 
-  const changeBoardName = async (e) => {
-    e.preventDefault();
-    e.persist();
-    await db.collection("boardstest").doc(id).update({
-      name: e.target[0].value,
-    });
-    setBoardName(e.target[0].value);
-    setEditMode(false);
-  };
-
   return (
     <Grid item lg={12}>
       <List className="single-board" data-id={id}>
-        <Button onClick={() => props.deleteBoard(props.boardId)}>
-          <DeleteIcon />
-        </Button>
-        {isOnEditMode ? (
-          <form onSubmit={(e) => changeBoardName(e)}>
-            <input type="text" defaultValue={boardName} />
-            <Button type="submit">SAVE</Button>
-          </form>
-        ) : (
-          <h2 style={{ display: "inline" }}>{boardName}</h2>
-        )}
+        <h2 style={{ display: "inline" }}>{boardName}</h2>
+
         <FormControl className={classes.formControl}>
           <InputLabel shrink id="sortby-label">
             Sort By
@@ -210,24 +172,9 @@ export default function SingleBoard(props) {
             <MenuItem value="TD">Title Descending</MenuItem>
           </Select>
         </FormControl>
-        {!isOnEditMode && (
-          <Button onClick={() => setEditMode(true)}>
-            <EditIcon />
-          </Button>
-        )}
         <ListItem>
           <BoardItems boardItems={boardItems} id={id} />
         </ListItem>
-        <form onSubmit={(e) => addItem(e)}>
-          <input
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-          />
-          <Button type="submit">
-            <AddIcon />
-            Add item
-          </Button>
-        </form>
       </List>
     </Grid>
   );
