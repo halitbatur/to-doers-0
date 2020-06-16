@@ -5,20 +5,18 @@ import { Grid } from "@material-ui/core";
 export default function About() {
   //document.getElementById()
   return (
-    <Grid className="wrapper" item lg={9}>
-      <div className="tutorialHeader">
+    <Grid className="wrapper" item container lg={9}>
+      <Grid item lg={12} className="tutorialHeader">
         <header>Welcome to the tutorial!</header>
-      </div>
-      <div className="tutorialMain">
-        <div className="stepper">
-          <Stepper />
-        </div>
-        <div className="gifs">
-          {/* <img />
-          <img />
-          <img /> */}
-        </div>
-      </div>
+      </Grid>
+      <Grid item lg={6} className="stepper">
+        <Stepper />
+      </Grid>
+      <Grid item lg={6} className="gifs">
+        <img />
+        <img />
+        <img />
+      </Grid>
     </Grid>
   );
 }

@@ -6,6 +6,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DoneRoundedIcon from "@material-ui/icons/DoneRounded";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import styled from "styled-components";
+import "./index.css";
 
 const Container = styled.div`
   border: 1px solid grey;
@@ -64,7 +65,17 @@ export default function BoardItem(props) {
     <>
       {(props.showCompleted ? data.completed : !data.completed) && (
         <Container>
-          <Button onClick={() => completed()}>
+          <Button
+            onClick={(e) => {
+              e.persist();
+              setTimeout(() => {
+                e.target.parentNode.parentNode.parentNode.classList.add(
+                  "fadeOut"
+                );
+              }, 2000);
+              setTimeout(() => completed(), 3000);
+            }}
+          >
             <CheckCircleOutlineOutlinedIcon />
           </Button>
           <span>{data.name}</span>
