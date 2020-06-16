@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
-export default function AddBtn() {
+export default function AddBtn(props) {
   const [boardName, setBoardName] = useState("");
   const db = useSelector((state) => state.value);
 
@@ -17,7 +17,7 @@ export default function AddBtn() {
   };
 
   return (
-    <div style={{ gridColumn: "3/4" }}>
+    <Grid item xs={1} justify="flex-end">
       <form onSubmit={(e) => addBoard(e)}>
         <input
           type="text"
@@ -29,6 +29,7 @@ export default function AddBtn() {
           ADD BOARD
         </Button>
       </form>
-    </div>
+      {props.children}
+    </Grid>
   );
 }

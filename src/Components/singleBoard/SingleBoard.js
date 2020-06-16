@@ -7,7 +7,7 @@ import { Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import InputLabel from "@material-ui/core/InputLabel";
-import { Card } from "@material-ui/core";
+import { Card, Grid } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -148,50 +148,55 @@ export default function SingleBoard(props) {
   };
 
   return (
-    <Card className="single-board" data-id={id}>
-      <Button onClick={() => props.deleteBoard(props.boardId)}>
-        <DeleteIcon />
-      </Button>
-      {isOnEditMode ? (
-        <form onSubmit={(e) => changeBoardName(e)}>
-          <input type="text" defaultValue={boardName} />
-          <Button type="submit">SAVE</Button>
+    <Grid item lg={6} md={9}>
+      <Card className="single-board" data-id={id}>
+        <Button onClick={() => props.deleteBoard(props.boardId)}>
+          <DeleteIcon />
+        </Button>
+        {isOnEditMode ? (
+          <form onSubmit={(e) => changeBoardName(e)}>
+            <input type="text" defaultValue={boardName} />
+            <Button type="submit">SAVE</Button>
+          </form>
+        ) : (
+          <h2 style={{ display: "inline" }}>{boardName}</h2>
+        )}
+        <FormControl className={classes.formControl}>
+          <InputLabel shrink id="sortby-label">
+            Sort By
+          </InputLabel>
+          <Select
+            labelId="sortby-label"
+            id="demo-simple-select-outlined"
+            value={sortBy}
+            onChange={(e) => handleChange(e)}
+            displayEmpty
+            className={classes.selectEmpty}
+          >
+            <MenuItem value="">None</MenuItem>
+            <MenuItem value="DDA">DueDate Ascending</MenuItem>
+            <MenuItem value="DDD">DueDate Descending</MenuItem>
+            <MenuItem value="TA">Title Ascending</MenuItem>
+            <MenuItem value="TD">Title Descending</MenuItem>
+          </Select>
+        </FormControl>
+        {!isOnEditMode && (
+          <Button onClick={() => setEditMode(true)}>
+            <EditIcon />
+          </Button>
+        )}
+        <BoardItems boardItems={boardItems} id={id} />
+        <form onSubmit={(e) => addItem(e)}>
+          <input
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
+          />
+          <Button type="submit">
+            <AddIcon />
+            Add item
+          </Button>
         </form>
-      ) : (
-        <h2 style={{ display: "inline" }}>{boardName}</h2>
-      )}
-      <FormControl className={classes.formControl}>
-        <InputLabel shrink id="sortby-label">
-          Sort By
-        </InputLabel>
-        <Select
-          labelId="sortby-label"
-          id="demo-simple-select-outlined"
-          value={sortBy}
-          onChange={(e) => handleChange(e)}
-          displayEmpty
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">None</MenuItem>
-          <MenuItem value="DDA">DueDate Ascending</MenuItem>
-          <MenuItem value="DDD">DueDate Descending</MenuItem>
-          <MenuItem value="TA">Title Ascending</MenuItem>
-          <MenuItem value="TD">Title Descending</MenuItem>
-        </Select>
-      </FormControl>
-      {!isOnEditMode && (
-        <Button onClick={() => setEditMode(true)}>
-          <EditIcon />
-        </Button>
-      )}
-      <BoardItems boardItems={boardItems} id={id} />
-      <form onSubmit={(e) => addItem(e)}>
-        <input value={itemName} onChange={(e) => setItemName(e.target.value)} />
-        <Button type="submit">
-          <AddIcon />
-          Add item
-        </Button>
-      </form>
-    </Card>
+      </Card>
+    </Grid>
   );
 }

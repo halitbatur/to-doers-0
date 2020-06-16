@@ -1,17 +1,24 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import HomeIcon from "@material-ui/icons/Home";
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
-import DoneIcon from "@material-ui/icons/DoneOutlineOutlined";
-import InfoIcon from "@material-ui/icons/InfoOutlined";
+import {
+  Grid,
+  ListItem,
+  Divider,
+  CssBaseline,
+  Drawer,
+  ListItemIcon,
+  List,
+  ListItemText,
+} from "@material-ui/core";
+
+import {
+  MoveToInbox as InboxIcon,
+  Home as HomeIcon,
+  AccessAlarm as AccessAlarmIcon,
+  DoneOutlineOutlined as DoneIcon,
+  InfoOutlined as InfoIcon,
+} from "@material-ui/icons";
+
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -44,7 +51,7 @@ export default function PermanentDrawerLeft() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} style={{ gridColumn: "1/2" }}>
+    <Grid className={classes.root} item lg={2}>
       <CssBaseline />
       <Drawer
         className={classes.drawer}
@@ -109,6 +116,6 @@ export default function PermanentDrawerLeft() {
           ))}
         </List>
       </Drawer>
-    </div>
+    </Grid>
   );
 }
