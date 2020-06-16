@@ -14,7 +14,7 @@ export default function App() {
   return (
     <Router>
       <div className="App">
-        <AppBar></AppBar>
+        {/* <AppBar></AppBar> */}
         <Grid container spacing={3}>
           <SideNavBar />
           <Route exact path="/" component={BoardContainer} />

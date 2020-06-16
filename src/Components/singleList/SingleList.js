@@ -8,6 +8,13 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItem from "@material-ui/core/ListItem";
 import FormControl from "@material-ui/core/FormControl";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Collapse from "@material-ui/core/Collapse";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import StarBorder from "@material-ui/icons/StarBorder";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -26,7 +33,7 @@ export default function SingleBoard(props) {
   const [id] = useState(props.boardId);
   const [boardItems, setBoardItems] = useState([]);
   const [sortBy, setSortBy] = useState("");
-
+  const [open, setOpen] = useState(false);
   // Adds new item to our board
 
   const liveUpdate = async () => {
@@ -38,17 +45,7 @@ export default function SingleBoard(props) {
         const changes = ss.docChanges();
         changes.forEach((change) => {
           if (change.type === "added") {
-            // if (!change.doc.data().completed) {
             setBoardItems((boardItems) => [...boardItems, change.doc]);
-            // }
-            // else {
-            //   setBoardItems((boardItems) => {
-            //     const newItems = boardItems.filter(
-            //       (boardItem) => boardItem.id !== change.doc.id
-            //     );
-            //     return [...newItems];
-            //   });
-            // }
           } else if (change.type === "removed") {
             setBoardItems((boardItems) => {
               const newItems = boardItems.filter(
@@ -149,32 +146,30 @@ export default function SingleBoard(props) {
   }, []);
 
   return (
-    <Grid item lg={12}>
-      <List className="single-board" data-id={id}>
-        <h2 style={{ display: "inline" }}>{boardName}</h2>
-
-        <FormControl className={classes.formControl}>
-          <InputLabel shrink id="sortby-label">
-            Sort By
-          </InputLabel>
-          <Select
-            labelId="sortby-label"
-            id="demo-simple-select-outlined"
-            value={sortBy}
-            onChange={(e) => handleChange(e)}
-            displayEmpty
-            className={classes.selectEmpty}
-          >
-            <MenuItem value="">None</MenuItem>
-            <MenuItem value="DDA">DueDate Ascending</MenuItem>
-            <MenuItem value="DDD">DueDate Descending</MenuItem>
-            <MenuItem value="TA">Title Ascending</MenuItem>
-            <MenuItem value="TD">Title Descending</MenuItem>
-          </Select>
-        </FormControl>
-        <ListItem>
-          <BoardItems boardItems={boardItems} id={id} />
+    <Grid style={{ maringBottom: "5px" }} item lg={12}>
+      <List divider className="single-board" data-id={id}>
+        <ListItem button onClick={() => setOpen(!open)}>
+          <ListItemText className="list-header">
+            <h2>{boardName}</h2>
+          </ListItemText>
+          {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {boardItems.map((item) => {
+              return (
+                <ListItem divider button className={classes.nested}>
+                  <ListItemText>
+                    {item.data().name}{" "}
+                    {item.data().completed && (
+                      <span style={{ color: "green" }}>Completed !</span>
+                    )}
+                  </ListItemText>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Collapse>
       </List>
     </Grid>
   );

@@ -28,6 +28,19 @@ export default function BoardContainer(props) {
 
             return [...newBoards];
           });
+        } else if (change.type === "modified") {
+          setBoards((boards) => {
+            const changedId = change.doc.id;
+            const indexToReplace = boards.findIndex(
+              (board) => board.id === changedId
+            );
+
+            const updatedBoards = boards.slice();
+            updatedBoards[indexToReplace] = change.doc;
+
+            boards[indexToReplace] = change.doc;
+            return updatedBoards;
+          });
         }
       });
     });
