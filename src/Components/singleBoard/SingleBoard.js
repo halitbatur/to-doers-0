@@ -7,7 +7,7 @@ import { Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import InputLabel from "@material-ui/core/InputLabel";
-import { Card, Grid } from "@material-ui/core";
+import { Card, Grid, TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -161,44 +161,66 @@ export default function SingleBoard(props) {
   };
 
   return (
-    <Grid item lg={6} md={9}>
-      <Card className="single-board" data-id={id}>
-        <Button onClick={() => props.deleteBoard(props.boardId)}>
-          <DeleteIcon />
-        </Button>
-        {isOnEditMode ? (
-          <form onSubmit={(e) => changeBoardName(e)}>
-            <input type="text" defaultValue={boardName} />
-            <Button type="submit">SAVE</Button>
-          </form>
-        ) : (
-          <h2 style={{ display: "inline" }}>{boardName}</h2>
-        )}
-        <FormControl className={classes.formControl}>
-          <InputLabel shrink id="sortby-label">
-            Sort By
-          </InputLabel>
-          <Select
-            labelId="sortby-label"
-            id="demo-simple-select-outlined"
-            value={sortBy}
-            onChange={(e) => handleChange(e)}
-            displayEmpty
-            className={classes.selectEmpty}
+    <Grid container item lg={6} md={9}>
+      <Card style={{ flexGrow: "1" }} className="single-board" data-id={id}>
+        <Grid item container lg={12}>
+          <Grid item lg={11} style={{ paddingTop: "10px" }}>
+            {isOnEditMode ? (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <form onSubmit={(e) => changeBoardName(e)}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Board Name"
+                    variant="outlined"
+                    size="small"
+                    defaultValue={boardName}
+                  />
+                  <Button type="submit">SAVE</Button>
+                </form>
+                <Button onClick={() => props.deleteBoard(props.boardId)}>
+                  <DeleteIcon />
+                </Button>
+              </div>
+            ) : (
+              <h2 style={{ display: "inline" }}>{boardName}</h2>
+            )}
+          </Grid>
+          <Grid
+            item
+            lg={1}
+            style={{ paddingRight: "40px", justifyContent: "center" }}
           >
-            <MenuItem value="">None</MenuItem>
-            <MenuItem value="DDA">DueDate Ascending</MenuItem>
-            <MenuItem value="DDD">DueDate Descending</MenuItem>
-            <MenuItem value="TA">Title Ascending</MenuItem>
-            <MenuItem value="TD">Title Descending</MenuItem>
-          </Select>
-        </FormControl>
-        {!isOnEditMode && (
-          <Button onClick={() => setEditMode(true)}>
-            <EditIcon />
-          </Button>
-        )}
-        <BoardItems boardItems={boardItems} id={id} />
+            {!isOnEditMode && (
+              <Button onClick={() => setEditMode(true)}>
+                <EditIcon />
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+        <Grid item container lg={12}>
+          <Grid item lg={6}>
+            <FormControl className={classes.formControl}>
+              <InputLabel shrink id="sortby-label">
+                Sort By
+              </InputLabel>
+              <Select
+                labelId="sortby-label"
+                id="demo-simple-select-outlined"
+                value={sortBy}
+                onChange={(e) => handleChange(e)}
+                displayEmpty
+                className={classes.selectEmpty}
+              >
+                <MenuItem value="">None</MenuItem>
+                <MenuItem value="DDA">DueDate Ascending</MenuItem>
+                <MenuItem value="DDD">DueDate Descending</MenuItem>
+                <MenuItem value="TA">Title Ascending</MenuItem>
+                <MenuItem value="TD">Title Descending</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <BoardItems boardItems={boardItems} id={id} />
+        </Grid>
         <form onSubmit={(e) => addItem(e)}>
           <input
             value={itemName}

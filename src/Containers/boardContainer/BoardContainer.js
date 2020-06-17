@@ -85,7 +85,7 @@ export default function BoardContainer(props) {
     <Grid
       item
       container
-      lg={9}
+      lg={10}
       md={6}
       xs={3}
       spacing={1}
@@ -94,7 +94,7 @@ export default function BoardContainer(props) {
       <Grid
         item
         container
-        lg={11}
+        lg={10}
         md={9}
         xs={6}
         spacing={1}

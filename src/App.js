@@ -4,7 +4,6 @@ import CompletedContainer from "./Containers/completedContainer/CompletedContain
 import PomodoroContainer from "./Containers/pomodoroContainer/PomodoroContainer";
 import AboutContainer from "./Containers/aboutPageContainer/about";
 import SideNavBar from "./Components/navBar/SideNavbar";
-import AppBar from "./Components/navBar/AppBar";
 import { Grid } from "@material-ui/core";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
