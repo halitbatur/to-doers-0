@@ -141,7 +141,6 @@ export default function SingleBoard(props) {
           return [...sortedArr];
         });
         break;
-
       default:
     }
   };
@@ -177,7 +176,11 @@ export default function SingleBoard(props) {
                   />
                   <Button type="submit">SAVE</Button>
                 </form>
-                <Button onClick={() => props.deleteBoard(props.boardId)}>
+                <Button
+                  onClick={() => {
+                    props.deleteBoard(props.boardId);
+                  }}
+                >
                   <DeleteIcon />
                 </Button>
               </div>
@@ -221,15 +224,16 @@ export default function SingleBoard(props) {
           </Grid>
           <BoardItems boardItems={boardItems} id={id} />
         </Grid>
-        <form onSubmit={(e) => addItem(e)}>
-          <input
+        <form onSubmit={(e) => addItem(e)} style={{ paddingBottom: "6px" }}>
+          <TextField
+            // id="outlined-basic"
+            label="Item Name"
+            variant="outlined"
+            size="small"
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
           />
-          <Button type="submit">
-            <AddIcon />
-            Add item
-          </Button>
+          <Button type="submit">Add item</Button>
         </form>
       </Card>
     </Grid>

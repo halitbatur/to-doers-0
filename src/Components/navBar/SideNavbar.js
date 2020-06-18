@@ -19,7 +19,7 @@ import {
   InfoOutlined as InfoIcon,
 } from "@material-ui/icons";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -65,7 +65,7 @@ export default function PermanentDrawerLeft() {
         <Divider />
         <List>
           {["Home", "Pomodoro", "Completed"].map((text, index) => (
-            <Link
+            <NavLink
               to={() => {
                 switch (index) {
                   case 0:
@@ -87,14 +87,14 @@ export default function PermanentDrawerLeft() {
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
-            </Link>
+            </NavLink>
           ))}
         </List>
 
         <Divider />
         <List>
           {["About", "Contact Us"].map((text, index) => (
-            <Link
+            <NavLink
               to={() => {
                 switch (index) {
                   case 0:
@@ -112,7 +112,7 @@ export default function PermanentDrawerLeft() {
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
-            </Link>
+            </NavLink>
           ))}
         </List>
       </Drawer>

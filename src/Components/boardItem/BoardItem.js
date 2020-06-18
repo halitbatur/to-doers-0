@@ -18,7 +18,6 @@ const Container = styled.div`
 `;
 export default function BoardItem(props) {
   const db = useSelector((state) => state.value);
-  const [isOnEditMode, setEditMode] = useState(false);
   const [data, setData] = useState(props.data);
 
   const deleteItem = () => {
@@ -47,7 +46,6 @@ export default function BoardItem(props) {
       .update(newData);
 
     setData({ ...data, ...newData });
-    setEditMode(false);
   };
 
   const completed = () => {

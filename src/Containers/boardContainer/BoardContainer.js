@@ -6,12 +6,14 @@ import SingleList from "../../Components/singleList/SingleList";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { Grid } from "@material-ui/core";
+import SnackBars from "../../Components/snackBars/SnackBars";
 
 export default function BoardContainer(props) {
   const db = useSelector((state) => state.value);
   const [isOnListView, shouldSetViewToList] = useState(false);
   const [boards, setBoards] = useState([]);
   const [switchState, setState] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // Live updates the boards
   const liveUpdate = async () => {
@@ -52,7 +54,7 @@ export default function BoardContainer(props) {
       .doc(id)
       .delete()
       .then(() => console.log("delete board with the id:" + id));
-
+    setOpen(true);
     setBoards(() => boards.filter((board) => board.id !== id));
   };
   // Hello World
@@ -119,6 +121,12 @@ export default function BoardContainer(props) {
           label="Switch Look"
         />
       </AddBtn>
+      <SnackBars
+        key={2}
+        open={open}
+        closeAlret={() => setOpen(false)}
+        type="deleteBoard"
+      />
     </Grid>
   );
 }
