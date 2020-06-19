@@ -15,7 +15,7 @@ export default function App() {
     <Router>
       <div className="App">
         {/* <AppBar></AppBar> */}
-        <Grid container spacing={3}>
+        <Grid container spacing={0}>
           <SideNavBar />
           <Route exact path="/" component={BoardContainer} />
           <Route exact path="/pomodoro" component={PomodoroContainer} />
