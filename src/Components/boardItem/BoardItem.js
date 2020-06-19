@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useSelector } from "react-redux";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneRoundedIcon from "@material-ui/icons/DoneRounded";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import styled from "styled-components";
+import EditDialog from "../dialog/EditDialog";
 import "./index.css";
 
 const Container = styled.div`
@@ -17,7 +18,6 @@ const Container = styled.div`
 `;
 export default function BoardItem(props) {
   const db = useSelector((state) => state.value);
-  const [isOnEditMode, setEditMode] = useState(false);
   const [data, setData] = useState(props.data);
 
   const deleteItem = () => {
@@ -31,22 +31,21 @@ export default function BoardItem(props) {
   const editItem = (e) => {
     e.preventDefault();
     e.persist();
+    console.log(e.target[0].value);
+    console.log(e.target[2].value);
+    console.log(e.target[4].value);
+    const newData = {
+      name: e.target[0].value,
+      dueDate: e.target[2].value,
+      assignedTo: e.target[4].value.split(" "),
+    };
     db.collection("boardstest")
       .doc(props.boardId)
       .collection("boardItems")
       .doc(`${props.itemId}`)
-      .update({
-        name: e.target[0].value,
-        dueDate: e.target[1].value,
-        assignedTo: e.target[2].value.split(" "),
-      });
-    const newData = {
-      name: e.target[0].value,
-      dueDate: e.target[1].value,
-      assignedTo: e.target[2].value.split(" "),
-    };
+      .update(newData);
+
     setData({ ...data, ...newData });
-    setEditMode(false);
   };
 
   const completed = () => {
@@ -64,49 +63,40 @@ export default function BoardItem(props) {
   return (
     <>
       {(props.showCompleted ? data.completed : !data.completed) && (
-        <Container>
-          <Button
-            onClick={(e) => {
-              e.persist();
-              setTimeout(() => {
-                e.target.parentNode.parentNode.parentNode.classList.add(
-                  "fadeOut"
-                );
-              }, 2000);
-              setTimeout(() => completed(), 3000);
+        <Grid item lg={12}>
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignContent: "center",
             }}
           >
-            <CheckCircleOutlineOutlinedIcon />
-          </Button>
-          <span>{data.name}</span>
-          <Button onClick={() => setEditMode(!isOnEditMode)}>
-            <EditIcon />
-          </Button>
-
-          {isOnEditMode && (
-            <form onSubmit={(e) => editItem(e)}>
-              Name of the item: <input type="text" defaultValue={data.name} />
-              <br />
-              Due Date: <input type="date" defaultValue={data.dueDate} />
-              <br />
-              Assigned To:{" "}
-              <input
-                type="text"
-                placeholder=""
-                defaultValue={data.assignedTo.join(" ")}
-              />
-              <br />
-              <Button type="submit">
-                <i>Save Changes</i>
-                <DoneRoundedIcon />
+            {!data.completed && (
+              <Button
+                onClick={(e) => {
+                  e.persist();
+                  setTimeout(() => {
+                    e.target.parentNode.parentNode.parentNode.classList.add(
+                      "fadeOut"
+                    );
+                  }, 500);
+                  setTimeout(() => completed(), 1400);
+                }}
+              >
+                <CheckCircleOutlineOutlinedIcon />
               </Button>
-            </form>
-          )}
-          <Button onClick={deleteItem}>
-            <DeleteIcon />
-          </Button>
-          {data.dueDate !== "" && <span> Due date: {data.dueDate}</span>}
-        </Container>
+            )}
+            <h3>{data.name}</h3>
+            {data.dueDate !== "" && (
+              <h4 style={{ padding: "auto" }}> Due date: {data.dueDate}</h4>
+            )}
+            <EditDialog
+              editItem={editItem}
+              deleteItem={deleteItem}
+              data={data}
+            ></EditDialog>
+          </Container>
+        </Grid>
       )}
     </>
   );

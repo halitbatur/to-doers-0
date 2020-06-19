@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BoardItem from "../../Components/boardItem/BoardItem";
-import { FormControlLabel, Switch } from "@material-ui/core";
+import { FormControlLabel, Switch, Grid } from "@material-ui/core";
 
 export default function BoardItems(props) {
   const [showCompleted, setShowCompleted] = useState(false);
@@ -23,18 +23,20 @@ export default function BoardItems(props) {
   };
 
   return (
-    <div>
-      <FormControlLabel
-        control={
-          <Switch
-            checked={showCompleted}
-            onChange={handleChange}
-            name="antoine"
-          />
-        }
-        label="Show Completed!"
-      />
+    <>
+      <Grid item lg={6} style={{ paddingTop: "10px" }}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showCompleted}
+              onChange={handleChange}
+              name="antoine"
+            />
+          }
+          label="Show Completed!"
+        />
+      </Grid>
       {render()}
-    </div>
+    </>
   );
 }

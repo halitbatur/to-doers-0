@@ -6,12 +6,14 @@ import SingleList from "../../Components/singleList/SingleList";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { Grid } from "@material-ui/core";
+import SnackBars from "../../Components/snackBars/SnackBars";
 
 export default function BoardContainer(props) {
   const db = useSelector((state) => state.value);
   const [isOnListView, shouldSetViewToList] = useState(false);
   const [boards, setBoards] = useState([]);
   const [switchState, setState] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // Live updates the boards
   const liveUpdate = async () => {
@@ -28,6 +30,19 @@ export default function BoardContainer(props) {
 
             return [...newBoards];
           });
+        } else if (change.type === "modified") {
+          setBoards((boards) => {
+            const changedId = change.doc.id;
+            const indexToReplace = boards.findIndex(
+              (board) => board.id === changedId
+            );
+
+            const updatedBoards = boards.slice();
+            updatedBoards[indexToReplace] = change.doc;
+
+            boards[indexToReplace] = change.doc;
+            return updatedBoards;
+          });
         }
       });
     });
@@ -39,7 +54,7 @@ export default function BoardContainer(props) {
       .doc(id)
       .delete()
       .then(() => console.log("delete board with the id:" + id));
-
+    setOpen(true);
     setBoards(() => boards.filter((board) => board.id !== id));
   };
   // Hello World
@@ -72,7 +87,7 @@ export default function BoardContainer(props) {
     <Grid
       item
       container
-      lg={9}
+      lg={10}
       md={6}
       xs={3}
       spacing={1}
@@ -81,7 +96,7 @@ export default function BoardContainer(props) {
       <Grid
         item
         container
-        lg={11}
+        lg={10}
         md={9}
         xs={6}
         spacing={1}
@@ -106,6 +121,12 @@ export default function BoardContainer(props) {
           label="Switch Look"
         />
       </AddBtn>
+      <SnackBars
+        key={2}
+        open={open}
+        closeAlret={() => setOpen(false)}
+        type="deleteBoard"
+      />
     </Grid>
   );
 }

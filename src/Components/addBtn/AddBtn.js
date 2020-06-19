@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import AddIcon from "@material-ui/icons/Add";
-import { Button, Grid } from "@material-ui/core";
+// import AddIcon from "@material-ui/icons/Add";
+import { Button, Grid, TextField } from "@material-ui/core";
+import SnackBars from "../snackBars/SnackBars";
 
 export default function AddBtn(props) {
   const [boardName, setBoardName] = useState("");
+  const [open, setOpen] = useState(false);
   const db = useSelector((state) => state.value);
 
   // Adding a new board
   const addBoard = async (e) => {
     e.preventDefault();
+    setOpen(true);
     await db.collection("boardstest").add({
       name: boardName,
     });
@@ -17,19 +20,33 @@ export default function AddBtn(props) {
   };
 
   return (
-    <Grid item xs={1} justify="flex-end">
-      <form onSubmit={(e) => addBoard(e)}>
-        <input
-          type="text"
+    <Grid item lg={2}>
+      <form
+        onSubmit={(e) => addBoard(e)}
+        style={{
+          marginBottom: "10px",
+        }}
+      >
+        <TextField
+          id="outlined-basic"
+          label="Board Name"
+          variant="outlined"
+          size="meduim"
           value={boardName}
           onChange={(e) => setBoardName(e.target.value)}
-        ></input>
-        <Button type="submit">
-          <AddIcon />
-          ADD BOARD
-        </Button>
+        />
+
+        <Button type="submit">ADD BOARD</Button>
       </form>
       {props.children}
+      {open && (
+        <SnackBars
+          key={1}
+          open={open}
+          closeAlret={() => setOpen(false)}
+          type="board"
+        />
+      )}
     </Grid>
   );
 }
