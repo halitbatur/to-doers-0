@@ -91,7 +91,7 @@ export default function BoardContainer(props) {
       md={6}
       xs={3}
       spacing={1}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: "50px", marginLeft: "250px", marginRight: "40px"  }}
     >
       <Grid
         item
@@ -101,6 +101,7 @@ export default function BoardContainer(props) {
         xs={6}
         spacing={1}
         alignContent="center"
+        style={{marginRight:"0px"}}
       >
         {renderDemBoards(isOnListView)}
       </Grid>

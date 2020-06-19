@@ -161,7 +161,8 @@ export default function SingleBoard(props) {
 
   return (
     <Grid container item lg={6} md={9}>
-      <Card style={{ flexGrow: "1" }} className="single-board" data-id={id}>
+      
+      <Card style={{ flexGrow: "1", boxShadow:"100px" }} className="single-board" data-id={id}>
         <Grid item container lg={12}>
           <Grid item lg={11} style={{ paddingTop: "10px" }}>
             {isOnEditMode ? (
@@ -195,7 +196,7 @@ export default function SingleBoard(props) {
           >
             {!isOnEditMode && (
               <Button onClick={() => setEditMode(true)}>
-                <EditIcon />
+                <EditIcon style={{ color: "#410096" }}  />
               </Button>
             )}
           </Grid>

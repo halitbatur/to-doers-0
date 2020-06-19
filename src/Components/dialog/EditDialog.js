@@ -79,7 +79,7 @@ export default function EditDialog(props) {
   return (
     <>
       <Button onClick={handleClickOpen}>
-        <EditIcon />
+        <EditIcon style={{ color: "white" }}  />
       </Button>
 
       <Dialog

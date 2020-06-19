@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -27,16 +27,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
-  appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-  },
+  
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
+    
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -62,55 +60,32 @@ export default function PermanentDrawerLeft() {
         anchor="left"
       >
         <div className={classes.toolbar} />
-        <Divider />
+        
         <List>
-          {["Home", "Pomodoro", "Completed"].map((text, index) => (
-            <NavLink
+          {["Home","About", "Contact Us"].map((text, index) => (
+            <NavLink style={{ textDecoration: "none", }}
               to={() => {
+                
                 switch (index) {
                   case 0:
                     return "/";
                   case 1:
-                    return "/pomodoro";
-                  case 2:
-                    return "/completed";
-                  default:
-                    return "/";
-                }
-              }}
-            >
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index === 0 && <HomeIcon />}
-                  {index === 1 && <AccessAlarmIcon />}
-                  {index === 2 && <DoneIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            </NavLink>
-          ))}
-        </List>
-
-        <Divider />
-        <List>
-          {["About", "Contact Us"].map((text, index) => (
-            <NavLink
-              to={() => {
-                switch (index) {
-                  case 0:
                     return "/about";
-                  case 1:
+                  case 2:
                     return "/contactus";
                   default:
                     return "/";
                 }
               }}
             >
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InfoIcon /> : <InboxIcon />}
+              <ListItem button key={text} style={{ textDecoration: "none", color:"black" }}>
+                <ListItemIcon >
+                  {index === 0 ? <HomeIcon style={{ color:"#410096"}}/> : <Fragment/>}
+                  {index === 1 ? <InboxIcon style={{ color: "#410096" }} /> : <Fragment />}
+                  {index === 2 ? <InfoIcon style={{ color: "#410096" }} /> : <Fragment />}
+
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={text} style={{textDecoration: "none",}} />
               </ListItem>
             </NavLink>
           ))}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Grid } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useSelector } from "react-redux";
-import EditIcon from "@material-ui/icons/Edit";
 import DoneRoundedIcon from "@material-ui/icons/DoneRounded";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 import styled from "styled-components";
@@ -14,7 +13,8 @@ const Container = styled.div`
   padding: 8px;
   margin: 8px;
   border-radius: 5px;
-  background-color: #00aecc;
+  color: white;
+  background-color:#410096;
 `;
 export default function BoardItem(props) {
   const db = useSelector((state) => state.value);
@@ -83,7 +83,7 @@ export default function BoardItem(props) {
                   setTimeout(() => completed(), 1400);
                 }}
               >
-                <CheckCircleOutlineOutlinedIcon />
+                <CheckCircleOutlineOutlinedIcon style={{ color: "white"}} />
               </Button>
             )}
             <h3>{data.name}</h3>
@@ -91,6 +91,7 @@ export default function BoardItem(props) {
               <h4 style={{ padding: "auto" }}> Due date: {data.dueDate}</h4>
             )}
             <EditDialog
+              
               editItem={editItem}
               deleteItem={deleteItem}
               data={data}
