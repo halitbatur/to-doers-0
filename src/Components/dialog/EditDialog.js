@@ -9,7 +9,6 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import EditIcon from "@material-ui/icons/Edit";
-import DoneRoundedIcon from "@material-ui/icons/DoneRounded";
 import { TextField, makeStyles } from "@material-ui/core";
 
 const styles = (theme) => ({
@@ -79,7 +78,7 @@ export default function EditDialog(props) {
   return (
     <>
       <Button onClick={handleClickOpen}>
-        <EditIcon style={{ color: "white" }}  />
+        <EditIcon style={{ color: "white" }} />
       </Button>
 
       <Dialog

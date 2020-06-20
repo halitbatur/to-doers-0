@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar as Nav, Grid, Typography } from "@material-ui/core";
+import { AppBar as Nav, Typography } from "@material-ui/core";
 
 export default function AppBar() {
   return (

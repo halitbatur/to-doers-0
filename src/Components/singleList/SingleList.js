@@ -51,6 +51,7 @@ export default function SingleBoard(props) {
 
   useEffect(() => {
     liveUpdate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
